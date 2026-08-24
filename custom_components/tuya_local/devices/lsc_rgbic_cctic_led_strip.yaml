@@ -1,0 +1,140 @@
+# LSC Smart Connect RGB/IC + CCT/IC Smart LED Strip 3m
+#
+# Product ID: a5mzajl6cinrnfwi
+# Model: 6125000800
+# Article number: 3224261
+# EAN: 8712879168539
+# Tuya category: dd
+# Protocol: 3.5
+#
+# Known local DPS:
+# - DP 20: switch_led
+# - DP 21: work_mode
+# - DP 22: bright_value
+# - DP 23: temp_value
+# - DP 24: colour_data
+# - DP 26: countdown
+# - DP 52: unknown base64 payload
+# - DP 102: unknown base64 payload
+# - DP 103: unknown base64 payload
+#
+# Notes:
+# - Tuya Local currently matches the strip to:
+#   YSRSAI YSR-CGD-RGB (rgbwc_lightbulb)
+# - Basic RGB and tunable-white control works with the generic profile.
+# - The product is advertised as RGB/IC + CCT/IC.
+# - DP 25 is not present in observed local status.
+# - DP 52, DP 102 and DP 103 appear to contain extended IC/effect data.
+# - DP 103 changed when switching between colour and music mode.
+# - DP 52 and DP 102 remained unchanged during that specific test.
+# - The exact binary structures of DPS 52, 102 and 103 are not yet known.
+# - Raw DPS are exposed as optional text entities for controlled testing.
+# - Do not assume that these raw DPS are safe to write until their formats
+#   have been decoded and tested.
+#
+# Observed DP 103 values:
+#
+# Music mode:
+#   AAIACgEBLAGQA9SBBw==
+#
+# Colour mode:
+#   AAMACgAAKAPkA+gAwQPkA9wA/wMcA5oACwOWA+g=
+#
+# Observed DP 52:
+#   AQAAA2QyAAAAZAAAZAB4ZADwZAA8ZAC0ZAEsZAAAAA==
+#
+# Observed DP 102:
+#   AYIPMjIAAABkATxkAAAAAGQBEWQAAAAAZACzZAAAAAAAAAAAA+gB4Q==
+
+name: LSC Smart Connect RGBIC CCTIC LED strip
+products:
+  - id: a5mzajl6cinrnfwi
+    model: "6125000800"
+
+entities:
+  - entity: light
+    name: LED strip
+    icon: "mdi:led-strip-variant"
+    dps:
+      - id: 20
+        type: boolean
+        name: switch
+
+      - id: 21
+        type: string
+        name: effect
+        mapping:
+          - dps_val: "white"
+            value: "off"
+          - dps_val: "colour"
+            value: "off"
+          - dps_val: "scene"
+            value: "Scene"
+          - dps_val: "music"
+            value: "Music"
+
+      - id: 22
+        type: integer
+        name: brightness
+        range:
+          min: 10
+          max: 1000
+
+      - id: 23
+        type: integer
+        name: color_temp
+        range:
+          min: 0
+          max: 1000
+        mapping:
+          - target_range:
+              min: 2700
+              max: 6500
+
+      - id: 24
+        type: hex
+        name: color
+        optional: true
+
+  - entity: time
+    translation_key: timer
+    category: config
+    dps:
+      - id: 26
+        type: integer
+        name: second
+        optional: true
+        range:
+          min: 0
+          max: 86400
+        unit: s
+
+  - entity: text
+    name: Raw IC data 52
+    category: diagnostic
+    icon: "mdi:code-braces"
+    dps:
+      - id: 52
+        type: base64
+        name: value
+        optional: true
+
+  - entity: text
+    name: Raw IC data 102
+    category: diagnostic
+    icon: "mdi:code-braces"
+    dps:
+      - id: 102
+        type: base64
+        name: value
+        optional: true
+
+  - entity: text
+    name: Raw IC data 103
+    category: diagnostic
+    icon: "mdi:code-braces"
+    dps:
+      - id: 103
+        type: base64
+        name: value
+        optional: true
