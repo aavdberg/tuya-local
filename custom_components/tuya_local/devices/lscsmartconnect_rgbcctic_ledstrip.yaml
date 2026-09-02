@@ -24,12 +24,17 @@ entities:
       - id: 22
         name: brightness
         type: integer
+        optional: true
         range:
           min: 10
           max: 1000
+        mapping:
+          - dps_val: null
+            value: 0
       - id: 23
         name: color_temp
         type: integer
+        optional: true
         range:
           min: 0
           max: 1000
@@ -40,6 +45,7 @@ entities:
       - id: 24
         name: rgbhsv
         type: hex
+        optional: true
         format:
           - name: h
             bytes: 2
@@ -63,51 +69,374 @@ entities:
       - id: 26
         type: integer
         name: second
+        optional: true
         range:
           min: 0
           max: 86399
-  - entity: text
-    name: Music
-    category: config
-    icon: "mdi:music"
-    hidden: true
+  - entity: select
+    name: Mode
     dps:
-      - id: 27
+      - id: 21
         type: string
-        optional: true
+        name: option
+        mapping:
+          - dps_val: white
+            value: White
+          - dps_val: colour
+            value: Colour
+          - dps_val: scene
+            value: Scene
+          - dps_val: music
+            value: Music
+  - entity: number
+    name: Brightness
+    dps:
+      - id: 22
+        type: integer
         name: value
+        optional: true
+        range:
+          min: 10
+          max: 1000
+  - entity: number
+    name: Color temperature
+    dps:
+      - id: 23
+        type: integer
+        name: value
+        optional: true
+        range:
+          min: 0
+          max: 1000
   - entity: text
-    name: Dreamlight music
-    category: config
-    icon: "mdi:music"
+    name: Music rhythm payload
+    category: diagnostic
+    icon: "mdi:code-braces"
     hidden: true
     dps:
       - id: 52
         type: base64
         optional: true
         name: value
-  - entity: text
-    name: Power memory
-    category: config
-    icon: "mdi:cogs"
-    hidden: true
+  - entity: number
+    name: Music sensitivity
+    icon: "mdi:tune-vertical-variant"
     dps:
-      - id: 101
+      - id: 52
         type: base64
-        optional: true
         name: value
+        optional: true
+        mask: "0000000000ff00000000000000000000000000000000000000000000000000"
+        range:
+          min: 0
+          max: 100
+      - id: 52
+        type: base64
+        name: available
+        optional: true
+        mask: "00ff0000000000000000000000000000000000000000000000000000000000"
+        mapping:
+          - dps_val: 1
+            value: true
+          - dps_val: 0
+            value: false
+  - entity: button
+    name: Local Rock
+    icon: "mdi:guitar-electric"
+    dps:
+      - id: 52
+        type: base64
+        name: button
+        optional: true
+        mapping:
+          - dps_val: "AQEAA2QyAAAAZAAAZAB4ZADwZAA8ZAC0ZAEsZAAAAA=="
+            value: true
+  - entity: button
+    name: Local Jazz
+    icon: "mdi:music-note"
+    dps:
+      - id: 52
+        type: base64
+        name: button
+        optional: true
+        mapping:
+          - dps_val: "AQEAAmQyAAAAZAAAUAB4UADwUAA8UAC0UAEsUAAAAA=="
+            value: true
+  - entity: button
+    name: Local Classic
+    icon: "mdi:piano"
+    dps:
+      - id: 52
+        type: base64
+        name: button
+        optional: true
+        mapping:
+          - dps_val: "AQEAEmQyAAAAZAAAZAB4ZADwZAA8ZAC0ZAEsZAAAAA=="
+            value: true
+  - entity: button
+    name: Local Scroll
+    icon: "mdi:rotate-3d-variant"
+    dps:
+      - id: 52
+        type: base64
+        name: button
+        optional: true
+        mapping:
+          - dps_val: "AQEBAGQ9AQAAZAAAZAB4ZADwZAA8ZAC0ZAEsZAAAAA=="
+            value: true
+  - entity: button
+    name: Local Energy
+    icon: "mdi:lightning-bolt"
+    dps:
+      - id: 52
+        type: base64
+        name: button
+        optional: true
+        mapping:
+          - dps_val: "AQECAGQyAQAAZAAAZAB4ZADwZAA8ZAC0ZAEsZA=="
+            value: true
+  - entity: button
+    name: Local Spectrum
+    icon: "mdi:chart-bar"
+    dps:
+      - id: 52
+        type: base64
+        name: button
+        optional: true
+        mapping:
+          - dps_val: "AQEDAGRfAQAAZAAAZAB4ZADwZAA8ZAC0ZAEsZAAAAA=="
+            value: true
+  - entity: button
+    name: App Music rhythm
+    icon: "mdi:music-circle"
+    dps:
+      - id: 52
+        type: base64
+        name: button
+        optional: true
+        mapping:
+          - dps_val: "AQABAGQ9AQAAZAAAZAB4ZADwZAA8ZAC0ZAEsZAAAAA=="
+            value: true
+  - entity: button
+    name: App Game
+    icon: "mdi:gamepad-variant"
+    dps:
+      - id: 52
+        type: base64
+        name: button
+        optional: true
+        mapping:
+          - dps_val: "AQABAGQ9AQAAZAAAZAB4ZADwZAA8ZAC0ZAEsZAAAAA=="
+            value: true
+  - entity: button
+    name: App Romantic
+    icon: "mdi:heart"
+    dps:
+      - id: 52
+        type: base64
+        name: button
+        optional: true
+        mapping:
+          - dps_val: "AQABAGQ9AQAAZAAAZAB4ZADwZAA8ZAC0ZAEsZAAAAA=="
+            value: true
   - entity: text
-    translation_key: scene
-    category: config
+    name: RGBIC scene payload
+    category: diagnostic
+    icon: "mdi:led-strip-variant"
     hidden: true
     dps:
       - id: 102
         type: base64
         optional: true
         name: value
+  - entity: select
+    translation_key: scene
+    dps:
+      - id: 102
+        type: string
+        name: option
+        optional: true
+        mapping:
+          - dps_val: "ARUKUlLgAABkAMFhALQwAA=="
+            value: "Iceland blue"
+          - dps_val: "ARYKZGRgAABkAJJfAAAAAGQAxmAAAAAA"
+            value: "Glacier express"
+          - dps_val: "ARcDXl5gAABkADgvAB5cAA=="
+            value: "Sea of clouds"
+          - dps_val: "ARgCZGTgAABkALI5AQpkAQ=="
+            value: "Fireworks at sea"
+          - dps_val: "ARsDX19gAABkAK45AMRdAA=="
+            value: "Northland"
+          - dps_val: "AR0DUlLgAABkAK5kAKZkAA=="
+            value: "Northern lights"
+          - dps_val: "AR4KUlLgAABkABlkACJeACxbABRkAAxk"
+            value: "Late autumn"
+          - dps_val: "AUcFTU0AAABkAQNFAAAAAGQAwUMAAAAA"
+            value: "Dream meteor"
+          - dps_val: "ARkKVFRgAABkALEsAAAAAGQAwGQAAAAA"
+            value: "Hut in the snow"
+          - dps_val: "ARoDS0vgAABkAOA5AAAAAGQBCVMAAAAA"
+            value: "Firefly night"
+          - dps_val: "ARwKWlrgAABSAJ1kAAAAAFIAjmQAAAAA"
+            value: "Grassland"
+          - dps_val: "AUgGMjIAAABkAU5BAAAAAGQAH0kAAAAA"
+            value: "Early spring"
+          - dps_val: "AU4OMjIAAABkAD5fAAAAAGQAvlwAAAAA"
+            value: "Summer train"
+          - dps_val: "ASEDPDxgAABkAL8YAAAAAGQBBBcAAAAA"
+            value: "Work"
+          - dps_val: >-
+              AYIPMjIAAABkATxkAAAAAGQBEWQAAAAAZACzZAAAAAAAAAAAA
+            value: "Cyberpunk"
+          - dps_val: >-
+              AYMDR0cAAABkANhHAAAAAGQAD2QAAAAAZAE4ZAAAAABkAAFUAAAAAA
+            value: "Coral Sea"
+          - dps_val: >-
+              AWYBUFAAAAAAAAAAAlYD6AAAAAACuwOTAAAAAAMfAwgAAAAAA4UC1w
+            value: "Cold Light"
+          - dps_val: >-
+              AWcBUFAAAAAAAAAAAx0AAAAAAAADHQEMAAAAAAMdAdAAAAAAAx0CZA
+            value: "Warm Light"
+          - dps_val: >-
+              AWgBT08AAAAAAAAAAyMD6AAAAAADJQAAAAAAAAMfAtYAAAAAAx8BMg
+            value: "Blue Sky"
+          - dps_val: >-
+              AWkBUFAAAAAAAAAAAxoC6wAAAAADJANSAAAAAAMkA6wAAAAAAyQD6A
+            value: "Snow World"
+          - dps_val: >-
+              AWoBUVEAAAAAAAAAAyMCLgAAAAADHAFYAAAAAAMcAJwAAAAAAxwAAA
+            value: "Warm Wind"
+          - dps_val: >-
+              AWsBT0+AAAAAAAAAAxkBagAAAAADHALxAAAAAAMcAMUAAAAAAxwD6A==
+            value: "Start River"
+          - dps_val: >-
+              AWwCUFAAAAAAAAAAAxsD6AAAAAADHgN3AAAAAAMeAuA=
+            value: "Cold Mountain"
+          - dps_val: >-
+              AW0CT08AAAAAAAAAAxsAAAAAAAADGgDBAAAAAAMaAfU
+            value: "Warm Fog"
+          - dps_val: >-
+              AW4CUFAAAAAAAAAAAx0AAAAAAAADIAHIAAAAAAMgAucAAAAAAyAD6A
+            value: "White Pigeon"
+          - dps_val: >-
+              AW8DPDwAAAAAAAAAAx4D6AAAAAADJAN6AAAAAAMkAxgAAAAAAyYDAg
+            value: "White Balloon"
+          - dps_val: >-
+              AXADPT0AAAAAAAAAAxkAAAAAAAADJADcAAAAAAMkAYIAAAAAAyQCMw==
+            value: "Green House"
+          - dps_val: >-
+              AXEDPDwAAAAAAAAAAx4D6AAAAAADGQBbAAAAAAMZA00AAAAAAxkBwg
+            value: "Cloud"
+          - dps_val: >-
+              AXIEZGQAAAAAAAAAAxoD6AAAAAADGQOGAAAAAAMZAxkAAAAAAxkCtg
+            value: "Hail"
+          - dps_val: >-
+              AXMEZGQAAAAAAAAAAyMAAAAAAAADHACiAAAAAAMcAYcAAAAAAxwCHg
+            value: "Jewel and Jewel"
+          - dps_val: >-
+              AXQEZGQAAAAAAAAAAxoAAAAAAAADGgDwAAAAAAMaAmkAAAAAAxoDIQAAAAADGgPo
+            value: "White Pearl"
+          - dps_val: >-
+              AXUKT08AAAAAAAAAAzUC9wAAAAADIAPo
+            value: "Icicle"
+          - dps_val: >-
+              AXYKT08AAAAAAAAAAyEAAAAAAAADHQIq
+            value: "Warm Current"
+          - dps_val: >-
+              AXcKUFAAAAAAAAAAAycAAAAAAAADGgPoAAAAAAMaAccAAAAAAxMDHAAAAAADGgGR
+            value: "Snowball"
+          - dps_val: >-
+              AXgFUFAAAAAAAAAAAyAAfwAAAAADOAPo
+            value: "White Ribbon"
+          - dps_val: >-
+              AXkGUFAAAAAAAAAAAxgAzgAAAAADGAPo
+            value: "Snowman"
+          - dps_val: >-
+              AXoHAQEAAAAAAAAAA0wD6AAAAAADPAMP
+            value: "Snow"
+          - dps_val: >-
+              AXsIUFAAAAAAAAAAAx8AxgAAAAADGwPo
+            value: "Skating"
+          - dps_val: >-
+              AXwJRkYAAAAAAAAAAx4D6AAAAAADIQCbAAAAAAMhAzkAAAAAAyEBmg
+            value: "SnowballFight"
+          - dps_val: >-
+              AX0MPDwAAAAAAAAAAxsD6AAAAAADHQBhAAAAAAMdAx0AAAAAAx0Bzw
+            value: "Dew"
+          - dps_val: >-
+              AX4NPDwAAAAAAAAAAxwD6AAAAAADHAEA
+            value: "Skiing"
+          - dps_val: >-
+              AX8OUFAAAAAAAAAAAyUD6AAAAAADJQFC
+            value: "Ice Melting"
+          - dps_val: >-
+              AYAPOzsAAAAAAAAAA+gAygAAAAADIwMSAAAAAAMcA70AAAAAAx4D6A==
+            value: "Stars Shining"
+          - dps_val: >-
+              AYEKRUUAAAAAAAAAAxsD6AAAAAADIQFZ
+            value: "Show Lotus"
+          - dps_val: "AUkHDg4AAABkANo3AVJBAA=="
+            value: "Spring outing"
+          - dps_val: "AUoIMjIAAABkAPdQAClPAQ=="
+            value: "Night service"
+          - dps_val: "AUsJMjIAAABkAQNFAEE6AA=="
+            value: "Wind chime"
+          - dps_val: "AUwMMjIAAABkANhNAMFDAQ=="
+            value: "City lights"
+          - dps_val: "AU0NMjIAAABkAChkAF5CAA=="
+            value: "Colour marbles"
+          - dps_val: "AU8PGRkAAABkALxkAC1OAA=="
+            value: "Christmas eve"
+          - dps_val: "AVAQMjIAAABkAOZHAGQ8AQ=="
+            value: "Dream sea"
+          - dps_val: "AR8CX19gAABkARBkANJkAA=="
+            value: "Game"
+          - dps_val: "ASAKVVVgAABkAMJYAT4zAA=="
+            value: "Holiday"
+          - dps_val: "ASIEZGRgAABkANdcALxTADceACw/AWE/"
+            value: "Party"
+          - dps_val: "ASMCZGRgAABkAQhLALEvAA=="
+            value: "Trend"
+          - dps_val: "ASQKS0tgAABkALwmANZVAQ=="
+            value: "Sports"
+          - dps_val: "ASUDQ0NgAABkALc1AJtUAA=="
+            value: "Meditation"
+          - dps_val: "ASYBWVngAABkARlHAUk9AA=="
+            value: "Dating"
+          - dps_val: "ASkCYWHgAABkAAtkANlkACtkAJFkALlk"
+            value: "Christmas"
+          - dps_val: "ASoBZGRgAABkARVkAQVkAQ=="
+            value: "Valentines's Day"
+          - dps_val: "ASsDWlrgAABkAABXARZkANpkALNkAJVk"
+            value: "Halloween"
+          - dps_val: "ASwKSEhgAABkAD1kAQxbAA=="
+            value: "Thanksgiving Day"
+          - dps_val: "AS0CWVlgAABkAJxjALxiAA=="
+            value: "Forest Day"
+          - dps_val: "AS4DWlpgAABkAT42AQxWAQ=="
+            value: "Mothers Day"
+          - dps_val: "AS8CZGTgAABkANxCALZKAA=="
+            value: "Fathers Day"
+          - dps_val: "ATACXl5gAABkAABkAHhkAA=="
+            value: "Football Day"
+          - dps_val: "ATMDUlJgAABkAIhQANI5AA=="
+            value: "Summer idyll"
+          - dps_val: "ATQDXV1gAABkAPc2ATUrAA=="
+            value: "Dream of the sea"
+          - dps_val: "ATYCSUlgAABkAGY8ADxJAA=="
+            value: "Spring fishing"
+          - dps_val: "ATcKWlpgAABkADNYABhkAQBFAONeAKww"
+            value: "Neon world"
+          - dps_val: "ATgCV1fgAABkAQxkARpBAUdZABVkADw4"
+            value: "Dreamland"
+          - dps_val: >-
+              ATgCV1fgAABkAQxkAAAAAGQBGkEAAAAAZAFHWQAAAABkABVkAAAAAGQAPDgAAAAA
+            value: "Dreamland"
+          - dps_val: "AToCXV3gAABNALReARxkAA=="
+            value: "Planet journey"
   - entity: text
-    name: Paint
-    category: config
+    name: Paint payload
+    category: diagnostic
     icon: "mdi:palette"
     hidden: true
     dps:
